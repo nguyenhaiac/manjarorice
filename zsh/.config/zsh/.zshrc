@@ -60,7 +60,7 @@ alias gitu='git add . && git commit && git push'
 
 # Theming section  
 autoload -U compinit colors zcalc
-compinit -d
+compinit -d ~/.cache/zsh/zcompdump-$ZSH_VERSION
 colors
 
 # Color man pages

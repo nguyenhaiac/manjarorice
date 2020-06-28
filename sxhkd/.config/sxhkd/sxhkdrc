@@ -1,0 +1,11 @@
+super + r
+      alacritty -e newsboat
+
+super + p
+      passmenu
+
+super + shif + z
+      killall sxhkd && sxhkd &
+
+super + f
+      openemacs

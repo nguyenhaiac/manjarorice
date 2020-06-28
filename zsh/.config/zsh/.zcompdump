@@ -1,4 +1,4 @@
-#files: 915	version: 5.8
+#files: 920	version: 5.8
 
 _comps=(
 '-' '_precommand'
@@ -853,6 +853,7 @@ _comps=(
 'mpc' '_mpc'
 'mplayer' '_mplayer'
 'mpstat' '_sysstat'
+'mpv' '_mpv'
 'mr' '_myrepos'
 'mrd' '_mtools'
 'mread' '_mtools'
@@ -954,6 +955,8 @@ _comps=(
 '-parameter-' '_parameter'
 'parec' '_pulseaudio'
 'parecord' '_pulseaudio'
+'pass' '_pass'
+'pass-import' '_pass-import'
 'passwd' '_users'
 'paste' '_paste'
 'pasuspender' '_pulseaudio'
@@ -998,6 +1001,7 @@ _comps=(
 'pidof' '_pidof'
 'pidstat' '_sysstat'
 'pigz' '_gzip'
+'pimport' '_pimport'
 'pine' '_pine'
 'pinef' '_pine'
 'pinfo' '_texinfo'
@@ -1592,6 +1596,7 @@ _comps=(
 'yarn' '_yarn'
 'yash' '_sh'
 'yay' '_yay'
+'youtube-dl' '_youtube-dl'
 'ypbind' '_yp'
 'ypcat' '_yp'
 'ypmatch' '_yp'
@@ -1787,24 +1792,25 @@ autoload -Uz _afew _alacritty _android _archlinux-java _artisan \
             _jonas _journalctl _jrnl _kak _kernel-install \
             _kitchen _knife _language_codes _libinput _localectl \
             _loginctl _lunchy _machinectl _mc _meson \
-            _middleman _mina _mix _mkinitcpio _mussh \
-            _mvn _nano _networkctl _nftables _ninja \
-            _node _nvm _openssl _optirun _pacman \
-            _patool _perf _periscope _pgsql_utils _phing \
-            _pixz _pkcon _play _pm2 _port \
-            _protoc _pulseaudio _pygmentize _rails _ralio \
-            _redis-cli _resolvectl _rfkill _rkt _rslsync \
-            _rspec _rsvm _rubocop _sbt _scala \
-            _scrub _sdd _sd_hosts_or_user_at_host _sd_machines _sd_outputmodes \
-            _sd_unit_files _setcap _setup.py _sfdx _showoff \
-            _srm _stack _subl _subliminal _supervisorctl \
-            _svm _systemctl _systemd _systemd-analyze _systemd-delta \
-            _systemd-inhibit _systemd-nspawn _systemd-run _systemd-tmpfiles _tarsnap \
-            _teamocil _thor _timedatectl _tmuxinator _tmuxp \
-            _tox _trash-empty _trash-list _trash-put _trash-restore \
-            _udevadm _udisksctl _ufw _vagrant _virtualbox \
-            _vnstat _wemux _wg-quick _xinput _xsel \
-            _yaourt _yarn _yay _zcash-cli _cdr \
+            _middleman _mina _mix _mkinitcpio _mpv \
+            _mussh _mvn _nano _networkctl _nftables \
+            _ninja _node _nvm _openssl _optirun \
+            _pacman _pass _pass-import _patool _perf \
+            _periscope _pgsql_utils _phing _pimport _pixz \
+            _pkcon _play _pm2 _port _protoc \
+            _pulseaudio _pygmentize _rails _ralio _redis-cli \
+            _resolvectl _rfkill _rkt _rslsync _rspec \
+            _rsvm _rubocop _sbt _scala _scrub \
+            _sdd _sd_hosts_or_user_at_host _sd_machines _sd_outputmodes _sd_unit_files \
+            _setcap _setup.py _sfdx _showoff _srm \
+            _stack _subl _subliminal _supervisorctl _svm \
+            _systemctl _systemd _systemd-analyze _systemd-delta _systemd-inhibit \
+            _systemd-nspawn _systemd-run _systemd-tmpfiles _tarsnap _teamocil \
+            _thor _timedatectl _tmuxinator _tmuxp _tox \
+            _trash-empty _trash-list _trash-put _trash-restore _udevadm \
+            _udisksctl _ufw _vagrant _virtualbox _vnstat \
+            _wemux _wg-quick _xinput _xsel _yaourt \
+            _yarn _yay _youtube-dl _zcash-cli _cdr \
             _all_labels _all_matches _alternative _approximate _arg_compile \
             _arguments _bash_completions _cache_invalid _call_function _combination \
             _complete _complete_debug _complete_help _complete_help_generic _complete_tag \
