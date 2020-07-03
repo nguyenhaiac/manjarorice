@@ -1,0 +1,9 @@
+#!/bin/sh
+shell_shortcuts=~/.config/shortcutrc
+lf_shortcuts=~/.config/lf/lfrc
+[ -f $shell_shortcuts ] && sed -i "/##/ d" $shell_shortcuts
+[ -f $lf_shortcuts ] && sed -i "/##/ d" $lf_shortcuts
+awk "!/^\s*#/ && !/^\s*$/ {printf(\"alias %s=\42cd %s && ls -a\42  ##\n\", \$1, \$2) >> \"$shell_shortcuts\";
+printf(\"map %s cd %s  ## \n\", \$1, \$2) >> \"$lf_shortcuts\"}" ~/.config/directories
+
+
