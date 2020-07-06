@@ -14,3 +14,4 @@ alias \
 	xq="xbps-query" \
 	z="zathura" \
     ref="shortcuts >/dev/null; source ${XDG_CONFIG_HOME:-$HOME/.config}/shortcutrc"
+alias cron="EDITOR=nvim; crontab -e"
