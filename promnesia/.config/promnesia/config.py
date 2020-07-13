@@ -46,7 +46,9 @@ SOURCES = [
         '~/Dropbox/brain',
         name="Brain-org"
     ),
-
+    Source(
+        hypothesis.index
+    ),
 ]
 
 
