@@ -5,3 +5,5 @@ export PATH=$HOME/.cargo/bin/:$PATH
 export EDITOR=openemacs
 export FILE=ranger
 export BROWSER=firefox
+export MYDATA=$HOME/.local/share/promnesia
+export WORKON_HOME=$HOME/venv
