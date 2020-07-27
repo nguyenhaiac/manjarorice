@@ -8,4 +8,5 @@ nm-applet 2>&1 >/dev/null &
 pasystray 2>&1 >/dev/null &
 /usr/local/bin/dwmblocks &
 emacs --daemon 2>&1 >/dev/null &
+udiskie --tray 2>&1 > /dev/null &
 /home/hainguyen/.local/bin/scripts/dropbox.py start

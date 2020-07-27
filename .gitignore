@@ -1,2 +1,3 @@
 sonarr/*
 *.pyc
+/nvim/.config/nvim/.netrwhist

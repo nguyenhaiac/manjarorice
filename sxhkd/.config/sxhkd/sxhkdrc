@@ -1,8 +1,20 @@
-super + p
-      passmenu
-
-super + shif + z
+super + shift + z
       killall sxhkd && sxhkd &
 
 super + d
       openemacs
+
+super + shift + d
+      emacsclient -nc
+
+XF86AudioRaiseVolume
+      pactl set-sink-volume @DEFAULT_SINK@ +2%
+
+XF86AudioLowerVolume
+      pactl set-sink-volume @DEFAULT_SINK@ -2%
+
+super + h
+      alacritty -e htop
+
+super + w
+      firefox
