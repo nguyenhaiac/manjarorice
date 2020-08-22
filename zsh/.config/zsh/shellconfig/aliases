@@ -6,7 +6,7 @@ alias \
 	YT="youtube-viewer" \
 	sdn="sudo shutdown -h now" \
 	f="$FILE" \
-	e="$EDITOR" \
+	e="$EDITOR -nw" \
 	v="$EDITOR" \
 	p="sudo pacman" \
 	xi="sudo xbps-install" \
@@ -15,3 +15,9 @@ alias \
 	z="zathura" \
     ref="shortcuts >/dev/null; source ${XDG_CONFIG_HOME:-$HOME/.config}/shortcutrc"
 alias cron="EDITOR=nvim; crontab -e"
+
+## Alias section 
+alias cp="cp -i"                                                # Confirm before overwriting something
+alias df='df -h'                                                # Human-readable sizes
+alias free='free -m'                                            # Show sizes in MB
+alias gitu='git add . && git commit && git push'

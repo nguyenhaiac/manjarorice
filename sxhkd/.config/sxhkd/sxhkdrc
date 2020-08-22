@@ -1,5 +1,6 @@
 super + shift + z
-      killall sxhkd && sxhkd &
+	pkill -USR1 -x sxhkd; \
+	notify-send "sxhkd restarted"
 
 super + d
       openemacs
@@ -16,5 +17,16 @@ XF86AudioLowerVolume
 super + h
       alacritty -e htop
 
-super + w
-      firefox
+super + o; {f, a}
+      {firefox, anki}
+
+XF86Audio{Next,Prev}
+	mpc {next,prev}
+XF86Audio{Play,Stop}
+	mpc {play,pause}
+XF86Audio{Rewind,Forward}
+	mpc seek {-,+}10
+XF86Audio{Rewind,Forward}
+	mpc seek {-,+}10
+XF86Tools
+        alacritty -e ncmpcpp
