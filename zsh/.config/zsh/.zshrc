@@ -84,4 +84,4 @@ bindkey '^[[B' history-substring-search-down
 eval "$(starship init zsh)"
 for f in $HOME/.config/zsh/shellconfig/*; do source $f; done
 [ -f $HOME/.config/shortcutrc ] && source "$HOME/.config/shortcutrc"
-#source $HOME/.local/bin/virtualenvwrapper.sh > /dev/null
+source $HOME/.local/bin/virtualenvwrapper.sh > /dev/null

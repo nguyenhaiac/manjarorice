@@ -1,11 +1,14 @@
-super + shift + z
+super + shift + l
 	pkill -USR1 -x sxhkd; \
 	notify-send "sxhkd restarted"
 
-super + d
+super + j
       openemacs
 
-super + shift + d
+super + m
+      rofi -show combi
+
+super + shift + j
       emacsclient -nc
 
 XF86AudioRaiseVolume
@@ -14,11 +17,11 @@ XF86AudioRaiseVolume
 XF86AudioLowerVolume
       pactl set-sink-volume @DEFAULT_SINK@ -2%
 
-super + h
-      alacritty -e htop
+super + o; {f, a, b}
+      {firefox, anki, bookfinder}
 
-super + o; {f, a}
-      {firefox, anki}
+Print
+      maimpick
 
 XF86Audio{Next,Prev}
 	mpc {next,prev}
