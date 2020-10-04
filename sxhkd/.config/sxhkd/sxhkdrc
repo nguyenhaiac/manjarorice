@@ -32,4 +32,4 @@ XF86Audio{Rewind,Forward}
 XF86Audio{Rewind,Forward}
 	mpc seek {-,+}10
 XF86Tools
-        alacritty -e ncmpcpp
+  alacritty -e ncmpcpp
