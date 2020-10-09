@@ -8,3 +8,4 @@ export FILE=ranger
 export BROWSER=firefox
 export MYDATA=$HOME/.local/share/promnesia
 export WORKON_HOME=$HOME/venv
+export _JAVA_AWT_WM_NONREPARENTING=1
