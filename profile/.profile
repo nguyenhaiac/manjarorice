@@ -13,3 +13,4 @@ udiskie --tray 2>&1 > /dev/null &
 ibus-daemon &
 transmission-daemon &
 mpd &
+xinput set-button-map 12 1 11 3 4 5 6 7 12 10 9 2 8
