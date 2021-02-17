@@ -1,9 +1,0 @@
-#+TITLE: My Manjaro Rice
-
-You can clone this repo and install certain config for certain package by the ~stow~ package.
-
-#+begin_src shell
-  stow dunst
-  stow mpd
-  stow zsh
-#+end_src

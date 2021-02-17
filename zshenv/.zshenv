@@ -13,3 +13,11 @@ export _JAVA_AWT_WM_NONREPARENTING=1
 export GTK_IM_MODULE=ibus
 export XMODIFIERS=@im=ibus
 export QT_IM_MODULE=ibus
+export PYTHONPATH=$HOME/.local/python
+export SHELL=/usr/bin/zsh
+export PKG_CONFIG_PATH="/home/linuxbrew/.linuxbrew/opt/python@3.8/lib/pkgconfig"
+export LDFLAGS="-L/home/linuxbrew/.linuxbrew/opt/python@3.8/lib"
+export CPPFLAGS="-I/home/linuxbrew/.linuxbrew/opt/python@3.8/include"
+export PATH="/home/linuxbrew/.linuxbrew/opt/python@3.8/bin:$PATH"
+test -d ~/.linuxbrew && eval $(~/.linuxbrew/bin/brew shellenv)
+test -d /home/linuxbrew/.linuxbrew && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
