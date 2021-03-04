@@ -18,10 +18,8 @@ zstyle ':completion:*' accept-exact '*(N)'
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path ~/.zsh/cache
 HISTFILE=$HOME/.cache/.zhistory
-HISTSIZE=1000
-SAVEHIST=500
-#export EDITOR=/usr/bin/nano
-#export VISUAL=/usr/bin/nano
+HISTSIZE=1000000
+SAVEHIST=5000000
 WORDCHARS=${WORDCHARS//\/[&.;]}                                 # Don't consider certain characters part of the word
 
 
@@ -74,12 +72,20 @@ source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zs
 # Use history substring search
 source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+
 # bind UP and DOWN arrow keys to history substring search
 zmodload zsh/terminfo
 bindkey "$terminfo[kcuu1]" history-substring-search-up
 bindkey "$terminfo[kcud1]" history-substring-search-down
 bindkey '^[[A' history-substring-search-up			
 bindkey '^[[B' history-substring-search-down
+
+bindkey -s '^f' 'cd "$(dirname "$(fzf)")"\n'
+
+
+autoload edit-command-line; zle -N edit-command-line
+bindkey '^e' edit-command-line
 
 eval "$(starship init zsh)"
 for f in $HOME/.config/zsh/shellconfig/*; do source $f; done

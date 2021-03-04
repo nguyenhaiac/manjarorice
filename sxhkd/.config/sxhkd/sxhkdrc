@@ -19,6 +19,15 @@ XF86AudioLowerVolume
 
 super + o; {f, a, b}
       {firefox, anki, bookfinder}
+      
+super + f
+      openemacs $HOME
+      
+super + shift + f
+      alacritty -e ranger
+
+super + p
+      flameshot gui -p ~/Screenshot
 
 Print
       maimpick
