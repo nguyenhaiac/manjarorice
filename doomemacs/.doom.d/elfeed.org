@@ -1,0 +1,5 @@
+
+#+TITLE: Elfeed rules
+* Blogs                                                              :elfeed:
+** entry-title: \(linux\|linus\|ubuntu\|kde\|gnome\)                  :linux:
+** [[https://karl-voit.at/feeds/lazyblorg-all.atom_1.0.links-and-content.xml][Karl-voit]] :Emacs:PIM:
