@@ -9,6 +9,7 @@ export FILE=ranger
 export BROWSER=firefox
 export WORKON_HOME=$HOME/venv
 export _JAVA_AWT_WM_NONREPARENTING=1
+export SHELL=$(which zsh)
 
 export GTK_IM_MODULE=ibus
 export XMODIFIERS=@im=ibus
