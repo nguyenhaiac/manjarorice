@@ -9,5 +9,8 @@ ibus-daemon &
 transmission-daemon &
 volumeicon &
 sxhkd &
+dwmblocks &
 ./usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 xrandr --outpu DVI-D-0 --primary --left-of HDMI-0
+
+exec dwm

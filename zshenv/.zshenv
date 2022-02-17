@@ -5,15 +5,18 @@ export PATH=$HOME/.cargo/bin/:$PATH
 export PATH=$HOME/racket/bin:$PATH
 export PATH=~/.local/bin:$PATH
 export EDITOR=emacs
+export TERMINAL=alacritty
 export FILE=ranger
 export BROWSER=firefox
 export WORKON_HOME=$HOME/venv
 export _JAVA_AWT_WM_NONREPARENTING=1
 export SHELL=$(which zsh)
+export weatherreport=$HOME/.weatherreport 
 
 export GTK_IM_MODULE=ibus
 export XMODIFIERS=@im=ibus
 export QT_IM_MODULE=ibus
+export LOCATION=hanoi
 
 # export GTK_IM_MODULE=xim
 # export XMODIFIERS=@im=ibus

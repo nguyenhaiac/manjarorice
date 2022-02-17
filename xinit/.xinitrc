@@ -1,4 +1,4 @@
 #!/bin/sh
 
-. ~/.xprofile
+. ~/.profile
 

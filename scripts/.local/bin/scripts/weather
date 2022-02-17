@@ -1,2 +1,0 @@
-#!/bin/bash
-curl 'wttr.in/Hanoi?format="%l:%C+%f+%p"'
