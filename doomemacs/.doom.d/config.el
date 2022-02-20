@@ -18,6 +18,7 @@
 ;;   presentations or streaming.
 (setq doom-font "Hack Nerd Font-12")
 (require 'org-habit)
+(require 'org-linker-edna)
 (setq org-agenda-skip-deadline-prewarning-if-scheduled t)
 (setq org-agenda-span 7)
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
@@ -34,7 +35,11 @@
 ;; change `org-directory'. It must be set before org loads!
 
 (setq org-directory "~/Nextcloud/org/")
-(setq org-agenda-files (quote ("~/Nextcloud/org/todo.org")))
+(setq org-agenda-files (quote ("~/Nextcloud/org/todo.org"
+                               "~/Nextcloud/org/inbox.org")))
+
+(setq +org-capture-todo-file "inbox.org")
+
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
@@ -57,23 +62,8 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
-(setq org-agenda-custom-commands
-      '(("g" . "GTD contexts")
-        ("go" "work" tags-todo "@work")
-        ("gc" "Computer" tags-todo "@computer")
-        ("gp" "Phone" tags-todo "@phone")
-        ("gh" "Home" tags-todo "@home")
-        ("ge" "Home" tags-todo "@ergomech")
-        ("G" "GTD Block Agenda"
-         ((tags-todo "@work")
-          (tags-todo "@computer")
-          (tags-todo "@phone")
-          (tags-todo "@home")
-          (tags-todo "@ergomech"))
-         nil                      ;; i.e., no local settings
-         ("~/Nextcloud/next-actions.html")) ;; exports block to this file with C-c a e
-       ;; ..other co    mmands here
-        ))
+
+
 (setq vterm-shell "/usr/bin/zsh")
 (setq rmh-elfeed-org-files (list "~/.doom.d/elfeed.org"))
 (setq org-agenda-tags-column 90)
@@ -84,3 +74,52 @@
       org-agenda-skip-deadline-prewarning-if-scheduled t
       org-agenda-skip-scheduled-if-deadline-is-shown t)
 (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
+
+
+(setq org-agenda-custom-commands
+      '(("z" "Super view"
+         ((agenda "" ((org-agenda-span 'day)
+                      (org-super-agenda-groups
+                       '((:name "Today"
+                                :time-grid t
+                                :date today
+                                :todo "TODAY"
+                                :scheduled today
+                                :order 1)))))
+          (alltodo "" ((org-agenda-overriding-header "Projects")
+                    (org-super-agenda-groups
+                            '((:name none
+                               :children todo)
+                              (:discard (:anything t))))))
+          (alltodo "" ((org-agenda-overriding-header "Next")
+                       (org-super-agenda-groups
+                        '((:name none
+                           :todo "STRT")
+                          (:discard (:anything t))))))
+          (alltodo "" ((org-agenda-overriding-header "Quick take")
+                       (org-super-agenda-groups
+                       '((:name none
+                          :and (:effort< "0:30"
+                                :children nil))
+                         (:discard (:anything t))))))))))
+
+
+(after! org
+    (setq org-todo-keywords
+        '((sequence
+           "TODO(t)"  ; A task that needs doing & is ready to do
+           "STRT(s)"  ; A task that is in progress
+           "WAIT(w)"  ; Something external is holding up this task
+           "NEXT(n)"
+           "|"
+           "DONE(d)"  ; Task successfully completed
+           "KILL(k)") ; Task was cancelled, aborted or is no longer applicable
+        org-todo-keyword-faces
+        '(("[-]"  . +org-todo-active)
+          ("STRT" . +org-todo-active)
+          ("NEXT" . +org-todo-active)
+          ("[?]"  . +org-todo-onhold)
+          ("WAIT" . +org-todo-onhold)
+          ("NO"   . +org-todo-cancel)
+          ("KILL" . +org-todo-cancel)))
+)

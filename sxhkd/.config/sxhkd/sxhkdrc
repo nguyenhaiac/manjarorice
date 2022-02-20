@@ -19,7 +19,10 @@ XF86AudioLowerVolume
 
 super + o; {f, a, b}
       {firefox, anki, bookfinder}
-      
+
+super + k
+      . $HOME/.emacs.d/bin/org-capture
+
 super + f
       openemacs $HOME
       

@@ -49,3 +49,8 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
 (package! nov.el)
+(package! org-edna)
+(package! org-linker
+  :recipe (:host github :repo "toshism/org-linker"))
+(package! org-linker-edna
+  :recipe (:host github :repo "toshism/org-linker-edna"))

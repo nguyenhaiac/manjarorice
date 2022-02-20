@@ -1,8 +1,10 @@
 export ZDOTDIR=$HOME/.config/zsh
 export PATH=$HOME/.local/bin/scripts/:$PATH
+export PATH=$HOME/Applications/:$PATH
 export PATH=$HOME/.local/bin/scripts/statusbar:$PATH
 export PATH=$HOME/.cargo/bin/:$PATH
 export PATH=$HOME/racket/bin:$PATH
+export PATH=$HOME/.emacs.d/bin:$PATH
 export PATH=~/.local/bin:$PATH
 export EDITOR=emacs
 export TERMINAL=alacritty
