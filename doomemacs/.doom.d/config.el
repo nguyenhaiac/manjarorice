@@ -19,6 +19,8 @@
 (setq doom-font "Hack Nerd Font-12")
 (require 'org-habit)
 (require 'org-linker-edna)
+(org-edna-mode 1)
+(org-super-agenda-mode 1)
 (setq org-agenda-skip-deadline-prewarning-if-scheduled t)
 (setq org-agenda-span 7)
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
@@ -36,7 +38,9 @@
 
 (setq org-directory "~/Nextcloud/org/")
 (setq org-agenda-files (quote ("~/Nextcloud/org/todo.org"
-                               "~/Nextcloud/org/inbox.org")))
+                               "~/Nextcloud/org/inbox.org"
+                               "~/Nextcloud/org/mobile.org")))
+(setq org-roam-directory "~/Nextcloud/org/roam")
 
 (setq +org-capture-todo-file "inbox.org")
 
@@ -85,41 +89,128 @@
                                 :date today
                                 :todo "TODAY"
                                 :scheduled today
-                                :order 1)))))
+                                :order 2)))))
           (alltodo "" ((org-agenda-overriding-header "Projects")
                     (org-super-agenda-groups
                             '((:name none
+                               :face (:background "brown")
                                :children todo)
                               (:discard (:anything t))))))
-          (alltodo "" ((org-agenda-overriding-header "Next")
-                       (org-super-agenda-groups
-                        '((:name none
-                           :todo "STRT")
-                          (:discard (:anything t))))))
           (alltodo "" ((org-agenda-overriding-header "Quick take")
                        (org-super-agenda-groups
                        '((:name none
                           :and (:effort< "0:30"
                                 :children nil))
-                         (:discard (:anything t))))))))))
+                         (:discard (:anything t))))))
+          (alltodo "" ((org-agenda-overriding-header "Inbox")
+                       (org-super-agenda-groups
+                        '((:name none
+                           :tag "INBOX")
+                          (:discard (:anything t)
+                           :order 1)))))
+          (org-ql-search-block '(and (todo "NEXT")
+                                     (ancestors (todo "PROJ")))
+                               ((org-ql-block-header "Project tasks")
+                                (org-super-agenda-groups '((:auto-parent t))))
+                               )
+          (org-ql-search-block '(and (todo "NEXT")
+                                     (not (ancestors (todo))))
+                               ((org-ql-block-header "Non-Project tasks"))
+                               )
+          ))
+        ("s" "Stuck Projects"
+                ((org-ql-block '(and (todo "PROJ")
+                                     (not (done))
+                                     (not (descendants (todo "NEXT")))
+                                     (not (descendants (scheduled))))
+                               ((org-ql-block-header "Stuck Projects")))))
+        ))
+
+
+
 
 
 (after! org
-    (setq org-todo-keywords
+(setq org-todo-keywords
         '((sequence
            "TODO(t)"  ; A task that needs doing & is ready to do
+           "NEXT(n)"
+           "PROJ(p)"  ; A project, which usually contains other tasks
+           "LOOP(r)"  ; A recurring task
            "STRT(s)"  ; A task that is in progress
            "WAIT(w)"  ; Something external is holding up this task
-           "NEXT(n)"
+           "HOLD(h)"  ; This task is paused/on hold because of me
+           "IDEA(i)"  ; An unconfirmed and unapproved task or notion
            "|"
            "DONE(d)"  ; Task successfully completed
            "KILL(k)") ; Task was cancelled, aborted or is no longer applicable
+          (sequence
+           "[ ](T)"   ; A task that needs doing
+           "[-](S)"   ; Task is in progress
+           "[?](W)"   ; Task is being held up or paused
+           "|"
+           "[X](D)")  ; Task was completed
+          (sequence
+           "|"
+           "OKAY(o)"
+           "YES(y)"
+           "NO(n)"))
         org-todo-keyword-faces
         '(("[-]"  . +org-todo-active)
           ("STRT" . +org-todo-active)
-          ("NEXT" . +org-todo-active)
           ("[?]"  . +org-todo-onhold)
           ("WAIT" . +org-todo-onhold)
+          ("HOLD" . +org-todo-onhold)
+          ("PROJ" . +org-todo-project)
           ("NO"   . +org-todo-cancel)
           ("KILL" . +org-todo-cancel)))
-)
+(setq org-default-notes-file
+        (expand-file-name +org-capture-notes-file org-directory)
+        +org-capture-journal-file
+        (expand-file-name +org-capture-journal-file org-directory)
+        org-capture-templates
+        '(("t" "Personal todo" entry
+           (file+headline +org-capture-todo-file "Inbox")
+           "* TODO %?\n%i\n%a" :prepend t)
+          ("n" "Personal notes" entry
+           (file+headline +org-capture-notes-file "Inbox")
+           "* %u %?\n%i\n%a" :prepend t)
+          ("j" "Journal" entry
+           (file+olp+datetree +org-capture-journal-file)
+           "* %U %?\n%i\n%a" :prepend t)
+
+          ;; Will use {project-root}/{todo,notes,changelog}.org, unless a
+          ;; {todo,notes,changelog}.org file is found in a parent directory.
+          ;; Uses the basename from `+org-capture-todo-file',
+          ;; `+org-capture-changelog-file' and `+org-capture-notes-file'.
+          ("p" "Templates for projects")
+          ("pt" "Project-local todo" entry  ; {project-root}/todo.org
+           (file+headline +org-capture-project-todo-file "Inbox")
+           "* TODO %?\n%i\n%a" :prepend t)
+          ("pn" "Project-local notes" entry  ; {project-root}/notes.org
+           (file+headline +org-capture-project-notes-file "Inbox")
+           "* %U %?\n%i\n%a" :prepend t)
+          ("pc" "Project-local changelog" entry  ; {project-root}/changelog.org
+           (file+headline +org-capture-project-changelog-file "Unreleased")
+           "* %U %?\n%i\n%a" :prepend t)
+
+          ;; Will use {org-directory}/{+org-capture-projects-file} and store
+          ;; these under {ProjectName}/{Tasks,Notes,Changelog} headings. They
+          ;; support `:parents' to specify what headings to put them under, e.g.
+          ;; :parents ("Projects")
+          ("o" "Centralized templates for projects")
+          ("ot" "Project todo" entry
+           (function +org-capture-central-project-todo-file)
+           "* TODO %?\n %i\n %a"
+           :heading "Tasks"
+           :prepend nil)
+          ("on" "Project notes" entry
+           (function +org-capture-central-project-notes-file)
+           "* %U %?\n %i\n %a"
+           :heading "Notes"
+           :prepend t)
+          ("oc" "Project changelog" entry
+           (function +org-capture-central-project-changelog-file)
+           "* %U %?\n %i\n %a"
+           :heading "Changelog"
+           :prepend t))))

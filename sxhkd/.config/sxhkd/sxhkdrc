@@ -22,6 +22,8 @@ super + o; {f, a, b}
 
 super + k
       . $HOME/.emacs.d/bin/org-capture
+super + shift + k
+      emacsclient --eval '(org-roam-capture)'
 
 super + f
       openemacs $HOME
