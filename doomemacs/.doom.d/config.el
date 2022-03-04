@@ -89,43 +89,51 @@
                                 :date today
                                 :todo "TODAY"
                                 :scheduled today
-                                :order 2)))))
-          (alltodo "" ((org-agenda-overriding-header "Projects")
+                                :order 2)
+                         (:discard (:anything t))
+                         ))))
+          (alltodo "" ((org-agenda-overriding-header "==============================================")
                     (org-super-agenda-groups
-                            '((:name none
-                               :face (:background "brown")
+                            '((:name "===============Projects=================="
                                :children todo)
-                              (:discard (:anything t))))))
-          (alltodo "" ((org-agenda-overriding-header "Quick take")
-                       (org-super-agenda-groups
-                       '((:name none
-                          :and (:effort< "0:30"
-                                :children nil))
-                         (:discard (:anything t))))))
-          (alltodo "" ((org-agenda-overriding-header "Inbox")
-                       (org-super-agenda-groups
-                        '((:name none
-                           :tag "INBOX")
-                          (:discard (:anything t)
-                           :order 1)))))
-          (org-ql-search-block '(and (todo "NEXT")
+                              (:name "===============Inbox====================="
+                               :tag "INBOX")
+                              (:name "===============Quick take================"
+                               :and (:effort< "0:30"
+                                     :children nil))
+                              (:discard (:anything t))
+                              ))))
+
+          (org-ql-search-block '(and (or (todo "NEXT")
+                                         (todo "STRT"))
                                      (ancestors (todo "PROJ")))
-                               ((org-ql-block-header "Project tasks")
+                               ((org-ql-block-header "\n=======================Project tasks================")
                                 (org-super-agenda-groups '((:auto-parent t))))
                                )
-          (org-ql-search-block '(and (todo "NEXT")
-                                     (not (ancestors (todo))))
-                               ((org-ql-block-header "Non-Project tasks"))
+          (org-ql-search-block '(and (or (todo "NEXT")
+                                         (todo "STRT"))
+                                     (not (ancestors (todo)))
+                                     )
+                               ((org-ql-block-header "\n====================Non-Project tasks==============="))
                                )
           ))
         ("s" "Stuck Projects"
                 ((org-ql-block '(and (todo "PROJ")
                                      (not (done))
-                                     (not (descendants (todo "NEXT")))
+                                     (not (descendants (or(todo "NEXT")
+                                                          (todo "STRT"))))
                                      (not (descendants (scheduled))))
                                ((org-ql-block-header "Stuck Projects")))))
-        ))
 
+        ("t" "Available task"
+                ((org-ql-block '(and (todo)
+                                     (not (done))
+                                     (not (todo "NEXT"))
+                                     (parent (not (todo)))
+                                     (not (descendants))
+                                     )
+                               ((org-ql-block-header "Available tasks")))))
+        ))
 
 
 
