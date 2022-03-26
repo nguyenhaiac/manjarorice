@@ -11,7 +11,7 @@ volumeicon &
 sxhkd &
 dwmblocks &
 nextcloud &
-./usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+. /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 xrandr --output HDMI-0 --primary --left-of DVI-D-0
 
 exec dwm

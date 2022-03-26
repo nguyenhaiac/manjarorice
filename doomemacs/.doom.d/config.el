@@ -39,7 +39,8 @@
 (setq org-directory "~/Nextcloud/org/")
 (setq org-agenda-files (quote ("~/Nextcloud/org/todo.org"
                                "~/Nextcloud/org/inbox.org"
-                               "~/Nextcloud/org/mobile.org")))
+                               "~/Nextcloud/org/mobile.org"
+                               "~/Nextcloud/org/cal.org")))
 (setq org-roam-directory "~/Nextcloud/org/roam")
 
 (setq +org-capture-todo-file "inbox.org")
@@ -180,6 +181,9 @@
         '(("t" "Personal todo" entry
            (file+headline +org-capture-todo-file "Inbox")
            "* TODO %?\n%i\n%a" :prepend t)
+          ("i" "Interupted task" entry
+           (file+headline "~/Nextcloud/org/todo.org" "Tasks")
+           "* TODO %?\n%i\n%a" :prepend t :clock-in t :clock-resume t)
           ("n" "Personal notes" entry
            (file+headline +org-capture-notes-file "Inbox")
            "* %u %?\n%i\n%a" :prepend t)
@@ -222,3 +226,51 @@
            "* %U %?\n %i\n %a"
            :heading "Changelog"
            :prepend t))))
+
+(require 'org-caldav)
+
+(setq org-caldav-url "https://files.nguyen-hai.com/remote.php/dav/calendars/hainguyen"
+      org-caldav-calendar-id "personal-1"
+      org-caldav-inbox "~/Nextcloud/org/cal.org"
+      org-caldav-files '("~/Nextcloud/org/todo.org")
+      org-icalendar-timezone "Asia/Ho_Chi_Minh")
+ (setq org-icalendar-include-todo t
+      org-icalendar-use-deadline '(event-if-todo event-if-not-todo todo-due)
+      org-icalendar-use-scheduled '(event-if-todo event-if-not-todo todo-start)
+      org-icalendar-with-timestamps t)
+
+
+(use-package mu4e
+  :ensure nil
+  ;; :load-path "/usr/share/emacs/site-lisp/mu4e/"
+  ;; :defer 20 ; Wait until 20 seconds after startup
+  :config
+
+  ;; This is set to 't' to avoid mail syncing issues when using mbsync
+  (setq mu4e-change-filenames-when-moving t)
+
+  ;; Refresh mail using isync every 10 minutes
+  (setq mu4e-update-interval (* 10 60))
+  (setq mu4e-get-mail-command "mbsync -a")
+  (setq mu4e-maildir "~/Mail")
+
+  (setq mu4e-drafts-folder "/[Gmail]/Drafts")
+  (setq mu4e-sent-folder   "/[Gmail]/Sent Mail")
+  (setq mu4e-refile-folder "/[Gmail]/All Mail")
+  (setq mu4e-trash-folder  "/[Gmail]/Trash")
+
+  (setq mu4e-maildir-shortcuts
+      '(("/Inbox"             . ?i)
+        ("/[Gmail]/Sent Mail" . ?s)
+        ("/[Gmail]/Trash"     . ?t)
+        ("/[Gmail]/Drafts"    . ?d)
+        ("/[Gmail]/All Mail"  . ?a))))
+
+
+(setq smtpmail-smtp-server "smtp.gmail.com"
+      smtpmail-smtp-service 465
+      smtpmail-stream-type  'ssl)
+
+
+;; Configure the function to use for sending mail
+(setq message-send-mail-function 'smtpmail-send-it)

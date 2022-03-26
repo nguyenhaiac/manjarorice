@@ -54,3 +54,4 @@
   :recipe (:host github :repo "toshism/org-linker"))
 (package! org-linker-edna
   :recipe (:host github :repo "toshism/org-linker-edna"))
+(package! org-caldav)
