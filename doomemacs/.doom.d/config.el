@@ -7,7 +7,7 @@
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets.
 (setq user-full-name "Hai Nguyen"
-      user-mail-address "hainguyentien@hotmail.com")
+      user-mail-address "admin@ergomech.store")
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
@@ -39,6 +39,7 @@
 (setq org-directory "~/Nextcloud/org/")
 (setq org-agenda-files (quote ("~/Nextcloud/org/todo.org"
                                "~/Nextcloud/org/inbox.org"
+                               "~/Nextcloud/org/oneday.org"
                                "~/Nextcloud/org/mobile.org"
                                "~/Nextcloud/org/cal.org")))
 (setq org-roam-directory "~/Nextcloud/org/roam")
@@ -125,6 +126,9 @@
                                                           (todo "STRT"))))
                                      (not (descendants (scheduled))))
                                ((org-ql-block-header "Stuck Projects")))))
+        ("w" "Wait Task"
+                ((org-ql-block '(todo "WAIT")
+                               ((org-ql-block-header "Wait tasks")))))
 
         ("t" "Available task"
                 ((org-ql-block '(and (todo)
@@ -173,6 +177,8 @@
           ("PROJ" . +org-todo-project)
           ("NO"   . +org-todo-cancel)
           ("KILL" . +org-todo-cancel)))
+
+
 (setq org-default-notes-file
         (expand-file-name +org-capture-notes-file org-directory)
         +org-capture-journal-file
@@ -274,3 +280,4 @@
 
 ;; Configure the function to use for sending mail
 (setq message-send-mail-function 'smtpmail-send-it)
+(setq mu4e-alert-style nil)
