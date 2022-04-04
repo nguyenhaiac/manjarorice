@@ -81,16 +81,17 @@
       org-agenda-skip-scheduled-if-deadline-is-shown t)
 (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
 
-
+(setq org-deadline-warning-days 3)
 (setq org-agenda-custom-commands
       '(("z" "Super view"
-         ((agenda "" ((org-agenda-span 'day)
+         ((agenda "" ((org-agenda-span 'week)
                       (org-super-agenda-groups
                        '((:name "Today"
                                 :time-grid t
                                 :date today
-                                :todo "TODAY"
                                 :scheduled today
+                                :deadline today
+                                :habit t
                                 :order 2)
                          (:discard (:anything t))
                          ))))
@@ -108,6 +109,7 @@
 
           (org-ql-search-block '(and (or (todo "NEXT")
                                          (todo "STRT"))
+                                     (not (scheduled))
                                      (ancestors (todo "PROJ")))
                                ((org-ql-block-header "\n=======================Project tasks================")
                                 (org-super-agenda-groups '((:auto-parent t))))
@@ -281,3 +283,4 @@
 ;; Configure the function to use for sending mail
 (setq message-send-mail-function 'smtpmail-send-it)
 (setq mu4e-alert-style nil)
+(setq org-habit-show-habits-only-for-today t)
