@@ -82,65 +82,7 @@
 (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
 
 (setq org-deadline-warning-days 3)
-(setq org-agenda-custom-commands
-      '(("z" "Super view"
-         ((agenda "" ((org-agenda-span 'week)
-                      (org-super-agenda-groups
-                       '((:name "Today"
-                                :time-grid t
-                                :date today
-                                :scheduled today
-                                :deadline today
-                                :habit t
-                                :order 2)
-                         (:discard (:anything t))
-                         ))))
-          (alltodo "" ((org-agenda-overriding-header "==============================================")
-                    (org-super-agenda-groups
-                            '((:name "===============Projects=================="
-                               :children todo)
-                              (:name "===============Inbox====================="
-                               :tag "INBOX")
-                              (:name "===============Quick take================"
-                               :and (:effort< "0:30"
-                                     :children nil))
-                              (:discard (:anything t))
-                              ))))
 
-          (org-ql-search-block '(and (or (todo "NEXT")
-                                         (todo "STRT"))
-                                     (not (scheduled))
-                                     (ancestors (todo "PROJ")))
-                               ((org-ql-block-header "\n=======================Project tasks================")
-                                (org-super-agenda-groups '((:auto-parent t))))
-                               )
-          (org-ql-search-block '(and (or (todo "NEXT")
-                                         (todo "STRT"))
-                                     (not (ancestors (todo)))
-                                     )
-                               ((org-ql-block-header "\n====================Non-Project tasks==============="))
-                               )
-          ))
-        ("s" "Stuck Projects"
-                ((org-ql-block '(and (todo "PROJ")
-                                     (not (done))
-                                     (not (descendants (or(todo "NEXT")
-                                                          (todo "STRT"))))
-                                     (not (descendants (scheduled))))
-                               ((org-ql-block-header "Stuck Projects")))))
-        ("w" "Wait Task"
-                ((org-ql-block '(todo "WAIT")
-                               ((org-ql-block-header "Wait tasks")))))
-
-        ("t" "Available task"
-                ((org-ql-block '(and (todo)
-                                     (not (done))
-                                     (not (todo "NEXT"))
-                                     (parent (not (todo)))
-                                     (not (descendants))
-                                     )
-                               ((org-ql-block-header "Available tasks")))))
-        ))
 
 
 
@@ -284,3 +226,111 @@
 (setq message-send-mail-function 'smtpmail-send-it)
 (setq mu4e-alert-style nil)
 (setq org-habit-show-habits-only-for-today t)
+(add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
+
+
+
+(setq org-agenda-custom-commands
+      '(("d" "Dashboard"
+         ((agenda "" ((org-agenda-span 'week)
+                      (org-super-agenda-groups
+                       '((:name "Today"
+                                :time-grid t
+                                :date today
+                                :scheduled today
+                                :deadline today
+                                :habit t
+                                :order 2
+                                 )
+                         (:discard (:anything t))
+                         ))))
+          (alltodo "" ((org-agenda-overriding-header "==============================================")
+                    (org-super-agenda-groups
+                            '((:name "===============Projects=================="
+                               :children todo)
+                              (:name "===============Inbox====================="
+                               :tag "INBOX")
+                              (:name "===============Quick take================"
+                               :and (:effort< "0:30"
+                                     :children nil))
+                              (:discard (:anything t))
+                              ))))
+
+
+          (org-ql-search-block '(and (todo)
+                                     (not (scheduled))
+                                     (ancestors (todo "PROJ")))
+                               ((org-ql-block-header "\n=======================Project tasks================")
+                                (org-super-agenda-groups '((:auto-parent t))))
+                               )
+          (org-ql-search-block '(and (and (todo)
+                                          (not (todo "PROJ")))
+                                     (not (ancestors (todo)))
+                                     )
+                               ((org-ql-block-header "\n====================Non-Project tasks==============="))
+                               )
+
+          (org-ql-search-block '(and (todo "PROJ")
+                                     (not (done))
+                                     (not (descendants (or(todo "NEXT")
+                                                          (todo "STRT"))))
+                                     (not (descendants (scheduled))))
+                               ((org-ql-block-header "\n====================Stuck Projects=================")))
+
+          (org-ql-block '(and (todo)
+                                     (not (done))
+                                     (not (todo "NEXT"))
+                                     (parent (not (todo)))
+                                     (not (descendants))
+                                     )
+                               ((org-ql-block-header "\n===================Available tasks=================")))
+          (org-ql-block '(todo "WAIT")
+                               ((org-ql-block-header "\n===================Wait tasks======================")))
+          ))
+
+        ("t" "Today"
+         ((agenda "" ((org-agenda-span 'week)
+                      (org-super-agenda-groups
+                       '((:name "Today"
+                                :time-grid t
+                                :date today
+                                :scheduled today
+                                :deadline today
+                                :habit t
+                                :order 2)
+                         (:discard (:anything t))
+                         ))))
+          (org-ql-search-block '(and (or (todo "NEXT")
+                                         (todo "STRT"))
+                                     (not (scheduled))
+                                     (ancestors (todo "PROJ")))
+                               ((org-ql-block-header "\n=======================Project tasks================")
+                                (org-super-agenda-groups '((
+                                                            :auto-parent t
+                                                             ))))
+                               )
+          (org-ql-search-block '(and (or (todo "NEXT")
+                                         (todo "STRT"))
+                                     (not (ancestors (todo)))
+                                     )
+                               ((org-ql-block-header "\n====================Non-Project tasks==============="))
+                               )
+          ))
+
+
+        ))
+(defun ugt/org-ql-view--format-element (orig-fun &rest args)
+  "This function will intercept the original function and
+   add the filename to the result.
+
+   ARGS is `element' in `org-ql-view--format-element'"
+  (if (not args)
+      ""
+    (let* ((element args)
+           (properties (cadar element))
+           (result (apply orig-fun element))
+           (filename (buffer-name
+                      (marker-buffer
+                       (plist-get properties :org-marker)))))
+      (concat filename " " result))))
+(advice-add 'org-ql-view--format-element :around #'ugt/org-ql-view--format-element)

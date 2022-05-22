@@ -9,9 +9,7 @@ ibus-daemon &
 transmission-daemon &
 volumeicon &
 sxhkd &
-dwmblocks &
+blueman-applet &
 nextcloud &
 . /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 xrandr --output HDMI-0 --primary --left-of DVI-D-0
-blueman-applet &
-exec dwm
